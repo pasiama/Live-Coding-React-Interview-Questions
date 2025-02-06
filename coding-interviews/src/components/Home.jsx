@@ -3,13 +3,25 @@ const Home = () => {
   const [items, setItems] = useState([]);
   const [text, setText] = useState("");
   const addToDo = () => {
-      console.log("I AM HERE")
+    console.log("I AM HERE");
     if (text) {
       setItems([...items, { text, completed: false }]);
-      console.log("items", items)
+      console.log("items", items);
 
       setText("");
     }
+  };
+
+  const toggleToDo = (index) => {
+    const newTodos = [...items];
+    newTodos[index].completed = !newTodos[index].completed;
+    setItems(newTodos);
+  };
+
+  const removeTodo = (index) => {
+    const anotherTodo = [...items];
+    anotherTodo.splice(index, 1);
+    setItems(anotherTodo);
   };
   return (
     <div
@@ -67,11 +79,22 @@ const Home = () => {
         >
           + ADD
         </button>
-      <ul>
-            {items.map((item, index) => {
-                  return <li key={index}>{item.text}</li>;
-            })}
-      </ul>
+        <ul>
+          {items.map((item, index) => {
+            return (
+              <li
+                key={index}
+                style={{
+                  textDecoration: item.completed ? 'line-through' : 'none',
+                }}
+              >
+                {item.text}
+                <button onClick={()=>toggleToDo(index)}>Toggle</button>
+                <button onClick={()=>removeTodo(index)}>Remove</button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
